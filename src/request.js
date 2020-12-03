@@ -1,4 +1,5 @@
-export const getShowsByKey = key => {
+export const getShowByKeyword = key => {
+	console.log(key)
   return fetch(`http://api.tvmaze.com/search/shows?q=${key}`).then(resp => resp.json())
 }
 
