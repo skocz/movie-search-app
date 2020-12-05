@@ -1,8 +1,5 @@
 import { mapListToDOMElements,  createDOMElements } from './DOMActions.js'
-import { 
-	getShowByKeyword,
-	getShowById
-  } from './request.js'
+import { getShowByKeyword, getShowById } from './request.js'
 
 class TVMaze {
 	constructor() {
@@ -20,66 +17,88 @@ class TVMaze {
 
 	connectDOMElements = () => {
 		const listOfIds = Array.from(document.querySelectorAll('[id]')).map(elem => elem.id)
-		// const listOfShowTitles = Array.from(
-			// document.querySelectorAll('[data-show-title]')
-			// ).map(elem => elem.dataset.showTitle)
-		// const listOfShowTitles = document.querySelectorById('themes-select');
-		console.log('heellow ')
-		console.log(listOfIds)
-		// console.log(listOfShowTitles)
-
 		this.viewElems = mapListToDOMElements(listOfIds, 'id')
-		// this.showTitleOptions = mapListToDOMElements(listOfShowTitles, 'data-show-title')
-
-		// console.log(this.viewElems.themesSelect)
-		// console.log(this.showTitleOptions)
 	}
 
 	setupListeners = () => {
-		// Object.keys(this.showTitleOptions).forEach(showTitle => {
 			this.viewElems.themesSelect.addEventListener('change', this.setCurrentNameFilter)
-		// })
 	}
 
 	setCurrentNameFilter = () => {
 		this.selectedKeyword = event.target.value
-		console.log('this is selcetd:' + this.selectedKeyword)
 		this.fetchAndDisplay()
 	}
 
 	fetchAndDisplay = show => {
-		// console.log('this is selcetd:' + this.selectedKeyword)
+		console.log('fetch')
 		getShowByKeyword(this.selectedKeyword).then(shows => this.renderCards(shows))
 	}
 
 	renderCards = shows => {
+		Array.from(
+			document.querySelectorAll('[data-show-id]')
+			).forEach(btn => btn.removeEventListener('click', this.openDetailsView))
 		this.viewElems.cardWrapper.innerHTML = ""
 
+
 		for (const { show } of shows) {
-			this.createShowCard(show)
+			const card = this.createShowCard(show)
+			this.viewElems.cardWrapper.appendChild(card)
 		}
 
 	}
 
-	createShowCard = show => {
+	closeDetailsView = event => {
+		const { showId } = event.target.dataset
+		const closeBtn = document.querySelector(`[id="showModel"] [data-show-id="${showId}"]`)
+		closeBtn.removeEventListener('click', this.closeDetailsView)
+		this.viewElems.showModal.style.display = 'none'
+		this.viewElems.showModal.innerHTML =  ""
+	}
+
+	openDetailsView = event => {
+
+		const { showId } = event.target.dataset
+
+		getShowById(showId).then(show => {
+			const card = this.createShowCard(show, true)
+			this.viewElems.showModal.appendChild(card)
+			this.viewElems.showModal.style.display = 'block'
+		})
+	}
+
+	createShowCard = (show, hasDetails) => {
 		const divCard = createDOMElements('div', 'card')
 		const divCardBody = createDOMElements('div', 'card-body')
 		const h5 = createDOMElements('h5', 'card-title', show.name)
-		// const p = createDOMElements('p', 'card-text', show.summary)
 		const button = createDOMElements('button', 'btn btn-primary', 'Show details')
-		let img, p ;
+		let img, p;
 
 		if(show.image) {
 			img = createDOMElements('img', 'card-img-top', null, show.image.medium)
 		} else {
-			img = createDOMElements('img', 'card-img-top', null, 'https://picsum.photos/1700/1050')
+			img = createDOMElements('img', 'card-img-top', null, 'https://picsum.photos/200/250')
 		}
 
 		if(show.summary) {
-			p = createDOMElements('p', 'card-text', `${show.summary.slice(0, 80)}...`)
+			if(hasDetails) {
+				p = createDOMElements('p', 'card-text', show.summary)
+			} else {
+				p = createDOMElements('p', 'card-text', `${show.summary.slice(0, 80)}...`)
+			}
 		} else {
 			p = createDOMElements('p', 'card-text', 'nop sorry')
 		}
+			
+
+		button.dataset.showId = show.id;
+
+		if(hasDetails) {
+			button.addEventListener('click', this.closeDetailsView);
+		} else {
+			button.addEventListener('click', this.openDetailsView);
+		}
+
 
 		divCard.appendChild(divCardBody)
 		divCardBody.appendChild(img)
@@ -87,7 +106,7 @@ class TVMaze {
 		divCardBody.appendChild(p)
 		divCardBody.appendChild(button)
 
-		this.viewElems.cardWrapper.appendChild(divCard)
+		return divCard
 		
 	}
 
