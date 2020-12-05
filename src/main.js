@@ -77,7 +77,7 @@ class TVMaze {
 		if(show.image) {
 			img = createDOMElements('img', 'card-img-top', null, show.image.medium)
 		} else {
-			img = createDOMElements('img', 'card-img-top', null, 'https://picsum.photos/200/250')
+			img = createDOMElements('img', 'card-img-top', null, 'https://picsum.photos/200/295')
 		}
 
 		if(show.summary) {
