@@ -8,20 +8,24 @@
 </head>
 <body>
 	<main>
-		<div>
-			<form>
-				<fieldset>
-	    			<legend>
-	    				<h1>Pick a keyword</h1>
-	    			</legend>
-	    			<select name="themes" id="themesSelect" required>
-	       				<option value="carrots">Carrots</option>
-	       				<option value="harry">harry</option>
-	      				<option value="girl">girl</option>
-	       				<option value="summer">Summer</option>
-	   				</select>
-	 			</fieldset>
-	 		</form>
+		<div class="form-sections__wrapper">
+	    	<div class="form-section__wrapper">
+	    		<label for="themesSelect">Pick a keyword</label>
+		    	<select name="themes" id="themesSelect">
+		    		<option value="">Select</option>
+		       		<option value="carrots">Carrots</option>
+		       		<option value="harry">harry</option>
+		      		<option value="girl">girl</option>
+		       		<option value="summer">Summer</option>
+		   		</select>
+	   		</div>
+	   		<div class="form-section__wrapper">
+		   		<label for="movieKeySearchInput">Type your own keyword:</label><!-- <br> -->
+	  			<input type="text" id="movieKeySearchInput" name="fname">
+	  		</div>
+	  		<div class="form-section__wrapper">
+	  			<button class="form-section__submit-btn" id="searchSubmitBtn" type="submit">Submit</button>
+	  		</div>
 		</div>
 
 		<div class="show-modal" id="showModal"></div>

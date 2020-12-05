@@ -1,26 +1,64 @@
-fieldset {
+.form-sections__wrapper {
 	width: 90%;
-    margin: 0 auto;
+    margin: 30px auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow:  0 .25rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.form-section__wrapper {
+	display: flex;
+    flex-direction: column;
+}
+
+.form-section__wrapper:last-of-type {
+	align-self: flex-end;
+}
+
+label {
+    margin-bottom: 10px;
+}
+select, input {
+	padding: 10px;
 }
 
 .card-wrapper {
 	display: block;
-	 justify-content: space-between;
+	justify-content: space-between;
   	flex-wrap: wrap;
 }
 
+.form-section__submit-btn {
+	display: inline-block;
+	color: #000;
+	padding: .8rem;
+	font-size: 16px;
+	border-radius: 10px;
+	box-shadow:  0 .25rem 1rem rgba(0, 0, 0, 0.15);
+	cursor: pointer;
+}
+
+.form-section__submit-btn:hover, .form-section__submit-btn:focus {
+    color: #c0c0c0;
+}
+
+
 .show-modal {
-  position: fixed;
-  left: 50%;
-  top: 5%;
-  display: none;
-  width: 90%;
-  max-width: 1100px;
-  height: 90%;
-  background: white;
-  transform: translate(-50%, 0);
-  z-index: 1;
-  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	position: fixed;
+	left: 50%;
+	top: 5%;
+	display: none;
+	width: 90%;
+	max-width: 1100px;
+	height: auto;
+	background: white;
+  	transform: translate(-50%, 0);
+  	z-index: 1;
+  	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
 }
 
 .card-wrapper {
@@ -58,5 +96,5 @@ fieldset {
 }
 
 .btn {
-	padding-bottom: 10px;
+	padding: 10px;
 }
